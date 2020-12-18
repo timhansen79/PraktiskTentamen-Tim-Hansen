@@ -2,14 +2,11 @@
 const URL = "https://restcountries.eu/rest/v2/all";
 
 fetch(URL)
-  .then(
-    // response => response.json()
-    function (response) {
-      console.log(response);
+  .then(function (response) {
+    console.log(response);
 
-      return response.json();
-    }
-  )
+    return response.json();
+  })
   .then(function (data) {
     console.log(data);
     for (let i = 0; i < 3; i++) {
@@ -18,15 +15,11 @@ fetch(URL)
       let name = data[random].name;
       let timezone = data[random].timezones[0];
       let flagUrl = data[random].flag;
-      /* let flag2 = new Flag(data[220].flag); */
 
       let countries = new Country(name, timezone, flagUrl);
       countries.displayLand(name);
       countries.displayTime(timezone);
       countries.displayFlag(flagUrl);
-      /* console.log(land);
-      console.log(timezone);
-      console.log(flag); */
     }
   });
 
@@ -36,9 +29,6 @@ function Country(_name, _time, _flag) {
   this.time = _time;
   this.flag = _flag;
 }
-/* function Flag(_flag) {
-  this.flag = _flag;
-} */
 
 let body = document.querySelector("body");
 
@@ -55,7 +45,7 @@ Country.prototype.displayLand = function (land) {
 Country.prototype.displayTime = function (time) {
   let body = document.querySelector("body");
   let tid = document.createElement("h3");
-  /* tid.innerText = this.timeZone; */
+
   tid.innerText = this.time;
   body.appendChild(tid);
   //visa tid
@@ -81,9 +71,11 @@ Country.prototype.displayTime = function (time) {
     tid.textContent = `${showDate.getUTCHours()}:${showDate.getUTCMinutes()}`;
   }
 };
+
+//Visa flagga
 Country.prototype.displayFlag = function (flag) {
   let img = document.createElement("img");
-  /* img.src = this.flag; */
+
   img.src = flag;
   body.appendChild(img);
   img.style.height = "100px";
