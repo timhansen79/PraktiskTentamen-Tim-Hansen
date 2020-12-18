@@ -1,49 +1,65 @@
 /* Skriv din kod här */
-const url = `https://restcountries.eu/rest/v2/all`;
+const URL = "https://restcountries.eu/rest/v2/all";
 
-fetch(url)
-  .then(function (response) {
-    return response.json();
-  })
+fetch(URL)
+  .then(
+    // response => response.json()
+    function (response) {
+      console.log(response);
+
+      return response.json();
+    }
+  )
   .then(function (data) {
-    //loopa random
+    console.log(data);
     for (let i = 0; i < 3; i++) {
-      let rand = Math.floor(Math.random() * data.length);
-      console.log(rand);
-      let country = new Land(
-        data[rand].name,
-        data[rand].timezones[0],
-        data[rand].flag
-      );
+      let random = Math.floor(Math.random() * data.length);
 
-      country.displayCountryName();
-      country.displayTimeZone();
-      country.displayFlag();
+      let name = data[random].name;
+      let timezone = data[random].timezones[0];
+      let flagUrl = data[random].flag;
+      /* let flag2 = new Flag(data[220].flag); */
+
+      let countries = new Country(name, timezone, flagUrl);
+      countries.displayLand(name);
+      countries.displayTime(timezone);
+      countries.displayFlag(flagUrl);
+      /* console.log(land);
+      console.log(timezone);
+      console.log(flag); */
     }
   });
 
-//Country-mall
-
-function Land(name, timeZone, url) {
-  this.name = name;
-  this.timeZone = timeZone;
-  this.flaggaUrl = url;
+//Constructor
+function Country(_name, _time, _flag) {
+  this.name = _name;
+  this.time = _time;
+  this.flag = _flag;
 }
-//visa land
-Land.prototype.displayCountryName = function () {
-  let body = document.querySelector("body");
-  let name = document.querySelector("h1");
-  name.innerText = this.name;
-  body.appendChild(name);
+/* function Flag(_flag) {
+  this.flag = _flag;
+} */
+
+let body = document.querySelector("body");
+
+Country.prototype.displayLand = function (land) {
+  let h2Land = document.createElement("h2");
+
+  h2Land.innerText = land;
+
+  body.appendChild(h2Land);
 };
+
+//uträkningen på time
 //visa tid
-Land.prototype.displayTimeZone = function () {
+Country.prototype.displayTime = function (time) {
   let body = document.querySelector("body");
-  let tid = document.querySelector("h3");
-  tid.innerText = this.timeZone;
+  let tid = document.createElement("h3");
+  /* tid.innerText = this.timeZone; */
+  tid.innerText = this.time;
   body.appendChild(tid);
   //visa tid
-  let UTC = this.timeZone;
+  let UTC = this.time;
   console.log(typeof UTC);
   console.log(UTC);
   let subStringUTC = UTC.substr(4, 2);
@@ -65,10 +81,10 @@ Land.prototype.displayTimeZone = function () {
     tid.textContent = `${showDate.getUTCHours()}:${showDate.getUTCMinutes()}`;
   }
 };
-//visa flagga
-Land.prototype.displayFlag = function () {
-  let body = document.querySelector("body");
-  let img = document.querySelector("img");
-  img.src = this.flaggaUrl;
+Country.prototype.displayFlag = function (flag) {
+  let img = document.createElement("img");
+  /* img.src = this.flag; */
+  img.src = flag;
   body.appendChild(img);
+  img.style.height = "100px";
 };
